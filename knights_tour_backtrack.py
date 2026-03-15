@@ -1,31 +1,3 @@
-"""
-Knight's Tour — Pure Backtracking + Visualisasi (Pygame)
-=========================================================
-Menyelesaikan Knight's Tour dengan backtracking murni.
-Visualisasi menampilkan proses maju (hijau) DAN mundur (merah)
-secara real-time sehingga kamu bisa melihat betapa banyak
-percobaan yang dilakukan.
-
-Dependensi:
-    pip install pygame
-
-Cara pakai:
-    python knights_tour_backtrack.py          -> papan 5x5, mulai (0,0)
-    python knights_tour_backtrack.py 6        -> papan 6x6
-    python knights_tour_backtrack.py 5 2 2    -> papan 5x5, mulai (2,2)
-
-Kontrol:
-    SPACE       -> pause / lanjut
-    R           -> reset & acak posisi awal
-    +/-         -> percepat / perlambat
-    S           -> skip ke solusi final (tanpa animasi proses)
-    Q / ESC     -> keluar
-
-PERINGATAN:
-    Backtracking murni SANGAT LAMBAT untuk papan besar.
-    Disarankan papan 5x5 atau 6x6 untuk melihat proses.
-    Papan 7x7 ke atas bisa memakan waktu sangat lama.
-"""
 
 import sys
 import time
@@ -541,10 +513,7 @@ def main():
         if ans != 'y':
             sys.exit(0)
 
-    print(f"\nKnight's Tour — Pure Backtracking")
-    print(f"Papan {n}×{n} | Posisi awal ({start_r},{start_c})")
-    print("-" * 40)
-
+   
     viz = KnightTourViz(n, start_r, start_c)
     viz.run()
 
