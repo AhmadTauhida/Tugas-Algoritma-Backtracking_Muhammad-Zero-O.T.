@@ -104,9 +104,7 @@ def solve_hybrid(n, start_r, start_c, max_events=5_000_000):
     return events, (sol_path if solved[0] else None)
  
  
-# ══════════════════════════════════════════════════════════════
-#  VISUALIZER
-# ══════════════════════════════════════════════════════════════
+# visualisasi dengan Pygame
  
 class KnightTourViz:
  

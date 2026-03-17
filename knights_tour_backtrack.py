@@ -4,7 +4,7 @@ import time
 import random
 import pygame
 
-# ─── Warna ─────────────────────────────────────────────────────
+# warna
 BG           = (15,  15,  20)
 LIGHT_SQ     = (200, 169, 110)
 DARK_SQ      = (90,  62,  40)
@@ -28,12 +28,7 @@ PANEL_W      = 270
 FPS          = 60
 
 
-# ═══════════════════════════════════════════════════════════════
-#  BACKTRACKING — menghasilkan daftar "event" untuk diputar ulang
-# ═══════════════════════════════════════════════════════════════
 
-# Setiap event: ('move', r, c, step)  — kuda maju ke (r,c) sebagai langkah ke-step
-#               ('back', r, c)        — kuda mundur, (r,c) dihapus dari papan
 
 def solve_backtrack(n, start_r, start_c, max_events=2_000_000):
     """
@@ -83,9 +78,7 @@ def solve_backtrack(n, start_r, start_c, max_events=2_000_000):
     return events, (sol_path if solved[0] else None)
 
 
-# ═══════════════════════════════════════════════════════════════
-#  VISUALIZER
-# ═══════════════════════════════════════════════════════════════
+
 
 class KnightTourViz:
     def __init__(self, n, start_r, start_c):
@@ -111,14 +104,14 @@ class KnightTourViz:
         # State animasi
         self.events       = []
         self.solution     = None
-        self.ev_idx       = 0          # index event yang sedang diputar
-        self.board        = []         # board saat ini (nilai langkah atau -1)
+        self.ev_idx       = 0          
+        self.board        = []         
         self.knight_r     = start_r
         self.knight_c     = start_c
         self.paused       = False
         self.done         = False
-        self.show_final   = False      # True = tampilkan solusi akhir saja
-        self.delay        = 0.05       # detik antar event
+        self.show_final   = False     
+        self.delay        = 0.05      
         self.move_count   = 0
         self.back_count   = 0
         self.total_events = 0
@@ -154,7 +147,7 @@ class KnightTourViz:
         # Reset state animasi
         self.board        = [[-1] * self.n for _ in range(self.n)]
         self.board[self.start_r][self.start_c] = 0
-        self.ev_idx       = 1          # event[0] adalah langkah awal, sudah di-apply
+        self.ev_idx       = 1          
         self.knight_r     = self.start_r
         self.knight_c     = self.start_c
         self.move_count   = 1
@@ -163,7 +156,7 @@ class KnightTourViz:
         self.show_final   = False
         self.paused       = False
 
-    # ── Satu langkah animasi ──────────────────────────────────
+    # Langkah animasi
     def _step(self):
         if self.ev_idx >= len(self.events):
             self.done = True
@@ -192,7 +185,7 @@ class KnightTourViz:
                         self.knight_r = rr
                         self.knight_c = cc
 
-    # ── Tampilkan solusi final langsung ──────────────────────
+    # tampilkan solusi final
     def _apply_final(self):
         if self.solution is None:
             return
@@ -218,7 +211,7 @@ class KnightTourViz:
         self.move_count = self.n * self.n
         self.back_count = sum(1 for e in self.events if e[0] == 'back')
 
-    # ── Gambar papan ─────────────────────────────────────────
+    # gambar papan
     def draw_board(self):
         for r in range(self.n):
             for c in range(self.n):
@@ -229,8 +222,7 @@ class KnightTourViz:
                 if r == self.knight_r and c == self.knight_c:
                     color = CURRENT_CLR
                 elif val >= 0:
-                    # Kotak dikunjungi — cek apakah ini langkah terakhir rantai
-                    # (ada nilai lebih besar? artinya sudah "lama" dikunjungi)
+                 
                     color = VISIT_L if light else VISIT_D
                 else:
                     color = LIGHT_SQ if light else DARK_SQ
@@ -245,7 +237,7 @@ class KnightTourViz:
 
                 pygame.draw.rect(self.screen, (0,0,0), rect, 1)
 
-    # ── Gambar jejak backtrack (kotak merah sementara) ───────
+    # jejak backtrack
     def draw_backtrack_flash(self):
         """Sorot kotak yang baru saja di-backtrack (merah sekilas)."""
         if self.ev_idx == 0 or self.ev_idx > len(self.events):
@@ -262,7 +254,7 @@ class KnightTourViz:
                 surf.fill((*BACKTRACK_L, 160) if light else (*BACKTRACK_D, 160))
                 self.screen.blit(surf, rect)
 
-    # ── Gambar jejak garis kuda ───────────────────────────────
+    # ── Gambar jejak garis kuda 
     def draw_trail(self):
         pts = []
         max_step = -1
@@ -287,7 +279,7 @@ class KnightTourViz:
         if len(pts) >= 2:
             pygame.draw.lines(self.screen, (*GOLD, 100), False, pts, 2)
 
-    # ── Gambar kuda ──────────────────────────────────────────
+    # ── Gambar kuda 
     def draw_knight(self):
         r, c  = self.knight_r, self.knight_c
         rect  = pygame.Rect(c*self.cell, r*self.cell, self.cell, self.cell)
@@ -297,7 +289,7 @@ class KnightTourViz:
         t = self.font_lg.render("♞", True, GOLD)
         self.screen.blit(t, t.get_rect(center=(cx,cy)))
 
-    # ── Gambar panel samping ──────────────────────────────────
+    # ── Gambar panel samping 
     def draw_panel(self):
         px = self.board_w
         pygame.draw.rect(self.screen, PANEL_BG, (px,0,PANEL_W,self.win_h))
@@ -408,7 +400,7 @@ class KnightTourViz:
             self.screen.blit(ds, (x0+52, y))
             y += 17
 
-    # ── Status bar bawah papan ────────────────────────────────
+    # ── Status bar bawah papan 
     def draw_statusbar(self):
         bar = pygame.Rect(0, self.board_w, self.board_w,
                           self.win_h - self.board_w)
@@ -432,7 +424,7 @@ class KnightTourViz:
         t = self.font_sm.render(msg, True, color)
         self.screen.blit(t, (8, self.board_w + 10))
 
-    # ── Loop utama ────────────────────────────────────────────
+    # ── Loop utama 
     def run(self):
         last_step = time.time()
 
@@ -486,10 +478,7 @@ class KnightTourViz:
             self.clock.tick(FPS)
 
 
-# ═══════════════════════════════════════════════════════════════
-#  MAIN
-# ═══════════════════════════════════════════════════════════════
-
+# Main program
 def main():
     args = sys.argv[1:]
 
